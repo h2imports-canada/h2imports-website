@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+echo "Running pre-commit checks..."
+
+# 1. Run ESLint and Prettier to format the code
+npx lint-staged
+
+# 2. Scan staged files for emojis. If found, reject the commit.
+if git diff --cached --name-only -z | xargs -0 grep -E "[😀-🙏|🌀-🗿|🚀-🛿]"; then
+  echo ""
+  echo "❌ COMMIT REJECTED: Emojis detected in your code or comments."
+  echo "Please remove them to maintain a clean codebase."
+  exit 1
+fi

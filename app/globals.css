@@ -1,26 +1,190 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* NEW: Force viewport scaling and prevent horizontal scroll breaks */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* NEW: Tighten leading and kerning for premium headings */
+h1,
+h2 {
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+@layer utilities {
+  /* Vertical Slide Up */
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Horizontal Slide Left (Subtle) */
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(40px);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Footer Line Expansion */
+  .expand-line {
+    width: 0;
+    height: 1px;
+    background-color: black;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .expand-line.is-visible {
+    width: 100%;
+  }
+
+  /* Immediate Page Load Animations */
+  @keyframes slideUpFade {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-on-load {
+    opacity: 0;
+    animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-on-load-delay {
+    opacity: 0;
+    animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  }
+
+  /* =============================================
+     NEW: SYMMETRICAL HORIZONTAL SLIDES
+     Separated transition properties so Tailwind delays work!
+     ============================================= */
+
+  .slide-from-right {
+    opacity: 0;
+    transform: translateX(300px);
+    transition-property: opacity, transform;
+    transition-duration: 1.2s;
+    transition-timing-function:
+      cubic-bezier(0.16, 1, 0.3, 1), cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .slide-from-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .slide-from-left {
+    opacity: 0;
+    transform: translateX(-300px);
+    transition-property: opacity, transform;
+    transition-duration: 1.2s;
+    transition-timing-function:
+      cubic-bezier(0.16, 1, 0.3, 1), cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .slide-from-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .draw-line {
+    width: 0;
+    height: 1px;
+    transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .is-visible .draw-line {
+    width: 100%;
+  }
+
+  /* Image Scale-Up Animation */
+  .scale-up {
+    transform: scale(0.8);
+    transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .scale-up.is-visible {
+    transform: scale(1);
+  }
+
+  /* =============================================
+     HERO SLIDE-UP ANIMATION
+     The yellow banner rises up from behind the image
+     ============================================= */
+  @keyframes heroBannerIn {
+    from {
+      opacity: 0;
+      transform: translateY(60px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroImageIn {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-banner {
+    opacity: 0;
+    animation: heroBannerIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  }
+
+  .hero-image {
+    opacity: 0;
+    animation: heroImageIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+  }
+
+  /* =============================================
+     HERO TEXT "TIGHT MASK" REVEAL
+     ============================================= */
+  @keyframes textMaskUp {
+    0% {
+      transform: translateY(110%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .mask-text-wrapper {
+    overflow: hidden;
+    display: block;
+    /* 4px buffer prevents the bottoms of 'p' or 'g' from clipping */
+    padding-bottom: 4px;
+  }
+
+  .mask-text-inner {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: textMaskUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  }
+
+  .mask-text-inner.delay {
+    animation-delay: 0.3s;
+  }
 }
