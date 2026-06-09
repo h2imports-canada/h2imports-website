@@ -8,7 +8,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="w-full flex items-center justify-between px-8 md:px-14 py-4 sticky top-0 z-50 bg-white"
+      className="relative w-full flex items-center justify-between px-8 md:px-14 py-4 sticky top-0 z-50 bg-white"
       style={{
         borderBottom: "1px solid #E5E5E5",
         paddingTop: "1.1rem",
@@ -16,7 +16,7 @@ export default function Navbar() {
       }}
     >
       {/* LEFT SIDE: Logo */}
-      <div className="flex-1 flex justify-start">
+      <div className="relative z-10">
         <Link href="/" className="no-underline flex items-center gap-3">
           <img
             src="/logo.jpg"
@@ -31,11 +31,11 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* CENTER: Hamburger (Mobile) & Nav Links (Desktop) */}
-      <div className="flex justify-center">
-        {/* Hamburger Icon (Visible only on Mobile) */}
+      {/* MOBILE CENTER: Absolutely Centered Hamburger */}
+      {/* md:hidden ensures this completely disappears on desktop */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:hidden z-10">
         <button
-          className="md:hidden flex items-center justify-center p-2 text-black hover:bg-gray-100 rounded-md transition-colors"
+          className="flex items-center justify-center p-2 text-black hover:bg-gray-100 rounded-md transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle Menu"
         >
@@ -50,13 +50,11 @@ export default function Navbar() {
             strokeLinejoin="round"
           >
             {isMobileMenuOpen ? (
-              // Close 'X' icon
               <>
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </>
             ) : (
-              // Hamburger 3-lines icon
               <>
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -65,27 +63,29 @@ export default function Navbar() {
             )}
           </svg>
         </button>
+      </div>
 
+      {/* RIGHT SIDE: Desktop Links & Contact Button */}
+      <div className="flex items-center gap-6 md:gap-8 relative z-10">
         {/* Desktop Links (Visible only on Desktop/Tablet) */}
         <div className="hidden md:flex items-center gap-8">
           <Link
             href="/about"
             className="font-medium text-gray-800 hover:text-black transition-colors no-underline"
+            style={{ fontSize: "1rem" }}
           >
             About
           </Link>
           <Link
             href="/services"
-            className="text-sm font-medium text-gray-800 hover:text-black transition-colors no-underline"
+            className="font-medium text-gray-800 hover:text-black transition-colors no-underline"
             style={{ fontSize: "1rem" }}
           >
             Services
           </Link>
         </div>
-      </div>
 
-      {/* RIGHT SIDE: Contact Button */}
-      <div className="flex-1 flex justify-end">
+        {/* Contact Button (Always Visible) */}
         <Link
           href="/contact"
           className="font-semibold text-white no-underline rounded-md transition-colors bg-[#0033CC] hover:bg-[#1a4fd6]"
