@@ -341,7 +341,7 @@ export default function Home() {
                 Get a Free Quote
               </Link>
               <Link
-                href="/services"
+                href="/process"
                 className="flex items-center justify-center bg-transparent text-black border-2 border-black px-8 py-4 text-sm font-bold rounded-xl hover:bg-black hover:text-white transition-colors"
               >
                 Our Manufacturing Process
