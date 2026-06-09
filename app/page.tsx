@@ -93,7 +93,6 @@ function ScrollSlideSection({
   );
 }
 
-
 function WinnipegMapAnimation() {
   const [hasAnimated, setHasAnimated] = useState(false);
   // NEW: State to track if the GIF is currently open
@@ -281,48 +280,74 @@ export default function Home() {
         style={{ backgroundColor: "#F5F5EB" }}
       >
         {/* 1. HERO */}
-        <section className="w-full overflow-hidden">
-          {/* Yellow banner slides up from behind image on load */}
-          <div className="hero-banner w-full bg-[#F7FA9A] px-8 md:px-14 py-12 md:py-16 flex flex-row justify-between items-center gap-8">
-            <div style={{ flex: "0 0 56%" }}>
-              <h1
-                className="leading-[0.9] text-black"
-                style={{
-                  fontSize: "clamp(2.8rem, 5.8vw, 6rem)",
-                  fontFamily: "'Barlow', sans-serif",
-                  fontWeight: 900,
-                  letterSpacing: "-0.02em",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Elevate Home Spaces
-              </h1>
-            </div>
-            <div style={{ flex: "0 0 36%" }}>
-              <p
-                style={{
-                  fontFamily: "'Georgia', serif",
-                  fontWeight: 300,
-                  fontSize: "1.35rem",
-                  lineHeight: "1.7",
-                  color: "#444",
-                  letterSpacing: "0.01em",
-                }}
-              >
-                Transform your home with stylish, contemporary designs that
-                enhance both aesthetics and functionality for a luxurious living
-                experience.
-              </p>
-            </div>
-          </div>
-          {/* Image — slides up slightly behind the banner */}
-          <div className="hero-image w-full" style={{ height: "70vh" }}>
+        <section className="relative w-full min-h-[85vh] flex items-center justify-center lg:justify-start px-8 md:px-14 py-20 overflow-hidden">
+          {/* Background Image (The Kitchen) */}
+          <div className="absolute inset-0 z-0">
             <img
               src="/CoverPhoto.jpeg"
-              alt="Modern Kitchen"
+              alt="Premium Custom Kitchen"
               className="w-full h-full object-cover"
             />
+            {/* Dark gradient overlay so the text card pops and the image isn't overwhelming */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
           </div>
+
+          {/* Floating Content Card */}
+          <AnimatedSection
+            animationClass="reveal-up"
+            className="relative z-10 w-full max-w-2xl bg-[#F5F5EB]/95 backdrop-blur-sm p-8 md:p-12 rounded-3xl shadow-2xl border border-white/20 mt-12 lg:ml-8"
+          >
+            {/* Small Badge */}
+            <div className="inline-block px-4 py-1.5 mb-6 text-xs font-black tracking-widest text-[#0033CC] uppercase bg-[#F7FA9A] rounded-full shadow-sm">
+              Winnipeg's Premier Manufacturer
+            </div>
+
+            {/* Headline */}
+            <h1
+              className="leading-[1.05] text-black mb-6"
+              style={{
+                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+                fontFamily: "'Barlow', sans-serif",
+                fontWeight: 900,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Master Crafted <br className="hidden sm:block" />
+              Kitchen Cabinetry.
+            </h1>
+
+            {/* Subtext explaining the manufacturing */}
+            <p
+              className="mb-8"
+              style={{
+                fontFamily: "'Georgia', serif",
+                fontSize: "1.15rem",
+                lineHeight: "1.7",
+                color: "#444",
+              }}
+            >
+              We don't just assemble kitchens; we build them from the ground up.
+              Utilizing premium materials and advanced machinery right here in
+              our local facility, we deliver flawless custom cabinetry tailored
+              exactly to your home.
+            </p>
+
+            {/* Call to Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/contact"
+                className="flex items-center justify-center bg-[#0033CC] text-white px-8 py-4 text-sm font-bold rounded-xl hover:bg-blue-800 transition-transform hover:-translate-y-1 shadow-lg"
+              >
+                Get a Free Quote
+              </Link>
+              <Link
+                href="/services"
+                className="flex items-center justify-center bg-transparent text-black border-2 border-black px-8 py-4 text-sm font-bold rounded-xl hover:bg-black hover:text-white transition-colors"
+              >
+                Our Manufacturing Process
+              </Link>
+            </div>
+          </AnimatedSection>
         </section>
 
         {/* 2. OUR EXPERTISE */}
