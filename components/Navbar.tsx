@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Navbar() {
-  // State to track if the mobile menu is open
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -16,10 +15,8 @@ export default function Navbar() {
         paddingBottom: "1.1rem",
       }}
     >
-      {/* LEFT SIDE: Logo & Nav Links / Hamburger */}
-      <div className="flex items-center gap-4 md:gap-8">
-        
-        {/* Logo & Company Name */}
+      {/* LEFT SIDE: Logo */}
+      <div className="flex-1 flex justify-start">
         <Link href="/" className="no-underline flex items-center gap-3">
           <img
             src="/logo.jpg"
@@ -32,22 +29,34 @@ export default function Navbar() {
             </span>
           </span>
         </Link>
+      </div>
 
+      {/* CENTER: Hamburger (Mobile) & Nav Links (Desktop) */}
+      <div className="flex justify-center">
         {/* Hamburger Icon (Visible only on Mobile) */}
         <button
           className="md:hidden flex items-center justify-center p-2 text-black hover:bg-gray-100 rounded-md transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle Menu"
         >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             {isMobileMenuOpen ? (
-              // Close 'X' icon when menu is open
+              // Close 'X' icon
               <>
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </>
             ) : (
-              // Hamburger 3-lines icon when menu is closed
+              // Hamburger 3-lines icon
               <>
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -58,7 +67,7 @@ export default function Navbar() {
         </button>
 
         {/* Desktop Links (Visible only on Desktop/Tablet) */}
-        <div className="hidden md:flex items-center gap-8 ml-4">
+        <div className="hidden md:flex items-center gap-8">
           <Link
             href="/about"
             className="font-medium text-gray-800 hover:text-black transition-colors no-underline"
@@ -75,8 +84,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* RIGHT SIDE: Contact Button (Always Visible) */}
-      <div className="flex items-center">
+      {/* RIGHT SIDE: Contact Button */}
+      <div className="flex-1 flex justify-end">
         <Link
           href="/contact"
           className="font-semibold text-white no-underline rounded-md transition-colors bg-[#0033CC] hover:bg-[#1a4fd6]"
