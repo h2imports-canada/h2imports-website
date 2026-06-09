@@ -284,7 +284,7 @@ export default function Home() {
           {/* Background Image (The Kitchen) */}
           <div className="absolute inset-0 z-0">
             <img
-              src="/CoverPhoto.jpeg"
+              src="/NewCover.jpeg"
               alt="Premium Custom Kitchen"
               className="w-full h-full object-cover"
             />
