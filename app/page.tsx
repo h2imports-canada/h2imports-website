@@ -95,7 +95,6 @@ function ScrollSlideSection({
 
 function WinnipegMapAnimation() {
   const [hasAnimated, setHasAnimated] = useState(false);
-  // NEW: State to track if the GIF is currently open
   const [selectedGif, setSelectedGif] = useState<string | null>(null);
 
   const mapRef = useRef<HTMLDivElement>(null);
@@ -116,54 +115,104 @@ function WinnipegMapAnimation() {
     };
   }, []);
 
+  // NEW: Added labelClass to control exactly where the text pops up to avoid edge clipping!
+  // Tweaked a few x/y coordinates slightly to give them more breathing room.
   const locations = [
-    { name: "H2 IMPORTS", x: "50%", y: "50%", delay: "0ms", isCenter: true },
+    {
+      name: "H2 IMPORTS",
+      x: "50%",
+      y: "50%",
+      delay: "0ms",
+      isCenter: true,
+      labelClass: "top-6 left-1/2 -translate-x-1/2",
+    },
     {
       name: "Assiniboine",
-      x: "30%",
+      x: "32%",
       y: "48%",
       delay: "300ms",
       isCenter: false,
+      labelClass: "top-5 left-1/2 -translate-x-1/2",
     },
-    { name: "Kildonan", x: "65%", y: "32%", delay: "500ms", isCenter: false },
-    { name: "Transcona", x: "75%", y: "52%", delay: "600ms", isCenter: false },
-    { name: "St. Vital", x: "62%", y: "70%", delay: "700ms", isCenter: false },
+    {
+      name: "Kildonan",
+      x: "65%",
+      y: "32%",
+      delay: "500ms",
+      isCenter: false,
+      labelClass: "top-5 left-1/2 -translate-x-1/2",
+    },
+    {
+      name: "Transcona",
+      x: "72%",
+      y: "55%",
+      delay: "600ms",
+      isCenter: false,
+      labelClass: "top-5 left-1/2 -translate-x-1/2",
+    },
+    {
+      name: "St. Vital",
+      x: "62%",
+      y: "70%",
+      delay: "700ms",
+      isCenter: false,
+      labelClass: "top-5 left-1/2 -translate-x-1/2",
+    },
     {
       name: "Fort Richmond",
       x: "35%",
       y: "75%",
       delay: "800ms",
       isCenter: false,
+      labelClass: "top-5 left-1/2 -translate-x-1/2",
     },
-    { name: "Selkirk", x: "55%", y: "10%", delay: "1000ms", isCenter: false },
-    { name: "Steinbach", x: "88%", y: "85%", delay: "1200ms", isCenter: false },
+    {
+      name: "Selkirk",
+      x: "55%",
+      y: "15%",
+      delay: "1000ms",
+      isCenter: false,
+      labelClass: "top-5 left-1/2 -translate-x-1/2",
+    },
+
+    // EDGE CASES: Shifted right label leftwards, and pushed bottom labels UP
+    {
+      name: "Steinbach",
+      x: "82%",
+      y: "82%",
+      delay: "1200ms",
+      isCenter: false,
+      labelClass: "bottom-5 right-0",
+    },
     {
       name: "Niverville",
       x: "50%",
-      y: "88%",
+      y: "85%",
       delay: "1300ms",
       isCenter: false,
+      labelClass: "bottom-5 left-1/2 -translate-x-1/2",
     },
     {
       name: "Portage la Prairie",
-      x: "8%",
+      x: "15%",
       y: "45%",
       delay: "1400ms",
       isCenter: false,
+      labelClass: "top-5 left-0",
     },
   ];
 
   return (
     <div
       ref={mapRef}
-      className="relative w-full h-[550px] mt-4 mb-4 rounded-xl overflow-hidden"
+      // NEW: Responsive height! Shorter on mobile (380px), tall on desktop (550px).
+      className="relative w-full h-[380px] md:h-[550px] mt-4 mb-4 rounded-xl overflow-hidden"
     >
       {/* 1. THE NEW BACKGROUND MAP LAYER */}
       <div className="absolute inset-0 z-0">
         <img
           src="/Website03.png"
           alt="Map of Winnipeg"
-          // We use opacity-30 so it blends nicely into your yellow card without overpowering it
           className="w-full h-full object-cover opacity-70 mix-blend-multiply"
         />
       </div>
@@ -178,7 +227,6 @@ function WinnipegMapAnimation() {
 
       {/* 3. The Map Dots (Z-20) */}
       {locations.map((loc, i) => {
-        // We put the visual content into a variable so we don't have to write it twice
         const dotContent = (
           <>
             <div
@@ -189,8 +237,10 @@ function WinnipegMapAnimation() {
               <div className="absolute inset-0 w-full h-full bg-black rounded-full animate-ping opacity-50 z-20" />
             )}
 
-            {/* Changed hover:scale-105 to group-hover:scale-105 so the text scales when you hover anywhere near the dot */}
-            <div className="absolute top-5 whitespace-nowrap bg-white/90 backdrop-blur-sm text-black text-[9px] sm:text-[10px] font-bold px-2 py-1 rounded-md shadow-sm z-40 transition-transform group-hover:scale-105 border border-gray-100">
+            {/* NEW: Applied dynamic labelClass to prevent edge clipping */}
+            <div
+              className={`absolute whitespace-nowrap bg-white/90 backdrop-blur-sm text-black text-[9px] sm:text-[10px] font-bold px-2 py-1 rounded-md shadow-sm z-40 transition-transform group-hover:scale-105 border border-gray-100 ${loc.labelClass}`}
+            >
               {loc.name}
             </div>
           </>
@@ -208,7 +258,6 @@ function WinnipegMapAnimation() {
               transitionDelay: loc.delay,
             }}
           >
-            {/* If it is the center dot, render a clickable link! */}
             {loc.isCenter ? (
               <a
                 href="https://maps.app.goo.gl/sAu4UijH9vMuhuQJA"
@@ -219,7 +268,6 @@ function WinnipegMapAnimation() {
                 {dotContent}
               </a>
             ) : (
-              // NEW: Clicking any blue dot opens the common giphy.gif!
               <div
                 className="relative flex flex-col items-center group cursor-pointer"
                 onClick={() => setSelectedGif("/giphy.gif")}
