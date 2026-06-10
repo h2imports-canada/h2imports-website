@@ -49,37 +49,37 @@ export default function ProcessPage() {
       num: "01",
       title: "Precision Measurement",
       desc: "Every flawless space begins with millimeter-perfect data. Our sales experts visit your location to conduct professional, comprehensive measurements for your kitchen, wardrobes, TV walls, or window blinds.",
-      img: "/Website12.JPG", // Swap with a photo of a tape measure, blueprint, or empty room
+      img: "/Measurement.jpg", // Swap with a photo of a tape measure, blueprint, or empty room
     },
     {
       num: "02",
       title: "MOZAIK™ 3D Design",
       desc: "Your measurements are handed over to our professional architectural designers. Using industry-leading MOZAIK software, we engineer a hyper-accurate 3D model of your custom cabinetry.",
-      img: "/Website05.jpeg", // Swap with a screenshot of your 3D software
+      img: "/Mozaik.jpg", // Swap with a screenshot of your 3D software
     },
     {
       num: "03",
       title: "Review & Refinement",
       desc: "We believe in total transparency. You receive the complete 3D design for review, allowing you to visualize the final product and make adjustments until it perfectly matches your vision.",
-      img: "/Website14.JPG", // Swap with a photo of a client meeting or a rendering
+      img: "/Client.jpg", // Swap with a photo of a client meeting or a rendering
     },
     {
       num: "04",
       title: "Advanced Manufacturing",
       desc: "Once approved, blueprints hit our factory floor. Each piece is cut with staggering accuracy using advanced CNC machinery. We then apply industrial edge-banding to seal exposed edges, guaranteeing a tight seal that completely locks out moisture and steam.",
-      img: "/Website04.jpeg", // Your factory/machine photo!
+      img: "/Factory1.jpg", // Your factory/machine photo!
     },
     {
       num: "05",
       title: "White-Glove Delivery",
       desc: "Your finished components are carefully packaged and transported by our dedicated in-house delivery team, ensuring every single piece arrives at your location in pristine condition.",
-      img: "/Website23.jpeg", // Swap with a photo of wrapped cabinets or your van
+      img: "/Delivery.jpg", // Swap with a photo of wrapped cabinets or your van
     },
     {
       num: "06",
       title: "Master Installation",
       desc: "The final step is executed by our veteran installation crew. Highly experienced and detail-oriented, they integrate your new cabinets and closets into your home for a flawless, seamless finish.",
-      img: "/Website02.jpg", // Swap with a photo of a finished, installed kitchen
+      img: "/Installation.jpg", // Swap with a photo of a finished, installed kitchen
     },
   ];
 
