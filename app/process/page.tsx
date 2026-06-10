@@ -149,12 +149,13 @@ export default function ProcessPage() {
                 </div>
 
                 {/* IMAGE BLOCK */}
-                <div className="relative z-10 w-full md:w-1/2 aspect-[4/3] rounded-3xl overflow-hidden shadow-xl">
+                <div className="relative z-10 w-full md:w-1/2 rounded-3xl overflow-hidden shadow-xl bg-white">
                   <FadeInSection delay="200ms">
                     <img
                       src={step.img}
                       alt={step.title}
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      // w-full and h-auto forces the container to dynamically match the image's exact dimensions
+                      className="w-full h-auto block transition-transform duration-700 hover:scale-105"
                     />
                   </FadeInSection>
                 </div>
