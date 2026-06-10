@@ -841,7 +841,7 @@ export default function Home() {
                 Facebook
               </a>
               <a
-                href="www.linkedin.com/in/mahmood-hassan-619169409"
+                href="https://www.linkedin.com/in/mahmood-hassan-619169409/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-blue-700 transition-colors"
