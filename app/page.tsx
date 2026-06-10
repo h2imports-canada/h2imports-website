@@ -115,8 +115,8 @@ function WinnipegMapAnimation() {
     };
   }, []);
 
-  // NEW: Added labelClass to control exactly where the text pops up to avoid edge clipping!
-  // Tweaked a few x/y coordinates slightly to give them more breathing room.
+  // NEW: Completely overhauled locations!
+  // We now use "top-full" (below the dot) and "bottom-full" (above the dot) to alternate label placement.
   const locations = [
     {
       name: "H2 IMPORTS",
@@ -124,15 +124,23 @@ function WinnipegMapAnimation() {
       y: "50%",
       delay: "0ms",
       isCenter: true,
-      labelClass: "top-6 left-1/2 -translate-x-1/2",
+      labelClass: "bottom-full mb-2 left-1/2 -translate-x-1/2",
     },
     {
       name: "Assiniboine",
-      x: "32%",
-      y: "48%",
+      x: "34%",
+      y: "54%",
       delay: "300ms",
       isCenter: false,
-      labelClass: "top-5 left-1/2 -translate-x-1/2",
+      labelClass: "top-full mt-2 left-1/2 -translate-x-1/2",
+    },
+    {
+      name: "Portage la Prairie",
+      x: "12%",
+      y: "38%",
+      delay: "1400ms",
+      isCenter: false,
+      labelClass: "top-full mt-2 left-0",
     },
     {
       name: "Kildonan",
@@ -140,75 +148,64 @@ function WinnipegMapAnimation() {
       y: "32%",
       delay: "500ms",
       isCenter: false,
-      labelClass: "top-5 left-1/2 -translate-x-1/2",
+      labelClass: "bottom-full mb-2 left-1/2 -translate-x-1/2",
     },
     {
       name: "Transcona",
-      x: "72%",
-      y: "55%",
+      x: "76%",
+      y: "54%",
       delay: "600ms",
       isCenter: false,
-      labelClass: "top-5 left-1/2 -translate-x-1/2",
+      labelClass: "top-full mt-2 right-0",
     },
     {
       name: "St. Vital",
-      x: "62%",
-      y: "70%",
+      x: "60%",
+      y: "72%",
       delay: "700ms",
       isCenter: false,
-      labelClass: "top-5 left-1/2 -translate-x-1/2",
+      labelClass: "bottom-full mb-2 left-1/2 -translate-x-1/2",
     },
     {
       name: "Fort Richmond",
-      x: "35%",
-      y: "75%",
+      x: "25%",
+      y: "78%",
       delay: "800ms",
       isCenter: false,
-      labelClass: "top-5 left-1/2 -translate-x-1/2",
+      labelClass: "top-full mt-2 left-0",
     },
     {
       name: "Selkirk",
-      x: "55%",
+      x: "50%",
       y: "15%",
       delay: "1000ms",
       isCenter: false,
-      labelClass: "top-5 left-1/2 -translate-x-1/2",
+      labelClass: "bottom-full mb-2 left-1/2 -translate-x-1/2",
     },
-
-    // EDGE CASES: Shifted right label leftwards, and pushed bottom labels UP
     {
       name: "Steinbach",
       x: "82%",
-      y: "82%",
+      y: "85%",
       delay: "1200ms",
       isCenter: false,
-      labelClass: "bottom-5 right-0",
+      labelClass: "bottom-full mb-2 right-0",
     },
     {
       name: "Niverville",
-      x: "50%",
-      y: "85%",
+      x: "52%",
+      y: "92%",
       delay: "1300ms",
       isCenter: false,
-      labelClass: "bottom-5 left-1/2 -translate-x-1/2",
-    },
-    {
-      name: "Portage la Prairie",
-      x: "15%",
-      y: "45%",
-      delay: "1400ms",
-      isCenter: false,
-      labelClass: "top-5 left-0",
+      labelClass: "top-full mt-2 left-1/2 -translate-x-1/2",
     },
   ];
 
   return (
     <div
       ref={mapRef}
-      // NEW: Responsive height! Shorter on mobile (380px), tall on desktop (550px).
       className="relative w-full h-[380px] md:h-[550px] mt-4 mb-4 rounded-xl overflow-hidden"
     >
-      {/* 1. THE NEW BACKGROUND MAP LAYER */}
+      {/* 1. BACKGROUND MAP LAYER */}
       <div className="absolute inset-0 z-0">
         <img
           src="/Website03.png"
@@ -217,7 +214,7 @@ function WinnipegMapAnimation() {
         />
       </div>
 
-      {/* 2. Expanding stylized radar rings (Z-10) */}
+      {/* 2. RADAR RINGS */}
       <div
         className={`absolute z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] aspect-square border-2 border-white/40 rounded-full transition-all duration-[1500ms] ease-out ${hasAnimated ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
       />
@@ -225,7 +222,7 @@ function WinnipegMapAnimation() {
         className={`absolute z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] aspect-square border-2 border-white/60 rounded-full transition-all duration-[1500ms] delay-300 ease-out ${hasAnimated ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
       />
 
-      {/* 3. The Map Dots (Z-20) */}
+      {/* 3. MAP DOTS */}
       {locations.map((loc, i) => {
         const dotContent = (
           <>
@@ -237,9 +234,9 @@ function WinnipegMapAnimation() {
               <div className="absolute inset-0 w-full h-full bg-black rounded-full animate-ping opacity-50 z-20" />
             )}
 
-            {/* NEW: Applied dynamic labelClass to prevent edge clipping */}
+            {/* NEW: Added group-hover:z-50 so tapped labels always jump to the absolute front */}
             <div
-              className={`absolute whitespace-nowrap bg-white/90 backdrop-blur-sm text-black text-[9px] sm:text-[10px] font-bold px-2 py-1 rounded-md shadow-sm z-40 transition-transform group-hover:scale-105 border border-gray-100 ${loc.labelClass}`}
+              className={`absolute whitespace-nowrap bg-white/95 backdrop-blur-md text-black text-[9px] sm:text-[10px] font-bold px-2.5 py-1.5 rounded-md shadow-sm transition-transform group-hover:scale-110 group-hover:z-50 border border-gray-100 ${loc.labelClass}`}
             >
               {loc.name}
             </div>
@@ -249,6 +246,7 @@ function WinnipegMapAnimation() {
         return (
           <div
             key={i}
+            // Lowered the base z-index so the hover layer works properly
             className="absolute z-20 transition-all duration-1000 ease-out"
             style={{
               top: hasAnimated ? loc.y : "50%",
@@ -279,7 +277,7 @@ function WinnipegMapAnimation() {
         );
       })}
 
-      {/* NEW: THE GIF POPUP MODAL */}
+      {/* GIF POPUP MODAL */}
       {selectedGif && (
         <div
           className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 cursor-pointer transition-opacity"
