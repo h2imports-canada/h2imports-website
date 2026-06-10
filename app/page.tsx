@@ -115,72 +115,74 @@ function WinnipegMapAnimation() {
     };
   }, []);
 
-  // NEW: Completely overhauled locations!
-  // We now use "top-full" (below the dot) and "bottom-full" (above the dot) to alternate label placement.
+  // Final adjusted coordinates and anchors for maximum breathing room
   const locations = [
     {
       name: "H2 IMPORTS",
       x: "50%",
-      y: "50%",
+      y: "46%",
       delay: "0ms",
       isCenter: true,
-      labelClass: "bottom-full mb-2 left-1/2 -translate-x-1/2",
-    },
-    {
-      name: "Assiniboine",
-      x: "34%",
-      y: "54%",
-      delay: "300ms",
-      isCenter: false,
-      labelClass: "top-full mt-2 left-1/2 -translate-x-1/2",
-    },
-    {
-      name: "Portage la Prairie",
-      x: "12%",
-      y: "38%",
-      delay: "1400ms",
-      isCenter: false,
-      labelClass: "top-full mt-2 left-0",
-    },
-    {
-      name: "Kildonan",
-      x: "65%",
-      y: "32%",
-      delay: "500ms",
-      isCenter: false,
-      labelClass: "bottom-full mb-2 left-1/2 -translate-x-1/2",
-    },
-    {
-      name: "Transcona",
-      x: "76%",
-      y: "54%",
-      delay: "600ms",
-      isCenter: false,
-      labelClass: "top-full mt-2 right-0",
-    },
-    {
-      name: "St. Vital",
-      x: "60%",
-      y: "72%",
-      delay: "700ms",
-      isCenter: false,
-      labelClass: "bottom-full mb-2 left-1/2 -translate-x-1/2",
-    },
-    {
-      name: "Fort Richmond",
-      x: "25%",
-      y: "78%",
-      delay: "800ms",
-      isCenter: false,
-      labelClass: "top-full mt-2 left-0",
+      labelClass: "bottom-full mb-1.5 left-1/2 -translate-x-1/2",
     },
     {
       name: "Selkirk",
       x: "50%",
-      y: "15%",
+      y: "12%",
       delay: "1000ms",
       isCenter: false,
-      labelClass: "bottom-full mb-2 left-1/2 -translate-x-1/2",
+      labelClass: "bottom-full mb-1.5 left-1/2 -translate-x-1/2",
+    },
+    {
+      name: "Kildonan",
+      x: "72%",
+      y: "28%",
+      delay: "500ms",
+      isCenter: false,
+      labelClass: "bottom-full mb-1.5 left-1/2 -translate-x-1/2",
+    },
+
+    // Portage la Prairie is now anchored strictly to the left edge and allowed to wrap downwards
+    {
+      name: "Portage la Prairie",
+      x: "12%",
+      y: "40%",
+      delay: "1400ms",
+      isCenter: false,
+      labelClass: "top-full mt-1.5 left-0",
+    },
+
+    {
+      name: "Assiniboine",
+      x: "28%",
+      y: "62%",
+      delay: "300ms",
+      isCenter: false,
+      labelClass: "top-full mt-1.5 left-1/2 -translate-x-1/2",
+    },
+    {
+      name: "Transcona",
+      x: "82%",
+      y: "52%",
+      delay: "600ms",
+      isCenter: false,
+      labelClass: "top-full mt-1.5 right-0",
+    },
+    {
+      name: "St. Vital",
+      x: "65%",
+      y: "68%",
+      delay: "700ms",
+      isCenter: false,
+      labelClass: "bottom-full mb-1.5 left-1/2 -translate-x-1/2",
+    },
+    {
+      name: "Fort Richmond",
+      x: "28%",
+      y: "82%",
+      delay: "800ms",
+      isCenter: false,
+      labelClass: "top-full mt-1.5 left-1/2 -translate-x-1/2",
     },
     {
       name: "Steinbach",
@@ -188,15 +190,15 @@ function WinnipegMapAnimation() {
       y: "85%",
       delay: "1200ms",
       isCenter: false,
-      labelClass: "bottom-full mb-2 right-0",
+      labelClass: "top-full mt-1.5 right-0",
     },
     {
       name: "Niverville",
-      x: "52%",
+      x: "55%",
       y: "92%",
       delay: "1300ms",
       isCenter: false,
-      labelClass: "top-full mt-2 left-1/2 -translate-x-1/2",
+      labelClass: "bottom-full mb-1.5 left-1/2 -translate-x-1/2",
     },
   ];
 
@@ -234,9 +236,13 @@ function WinnipegMapAnimation() {
               <div className="absolute inset-0 w-full h-full bg-black rounded-full animate-ping opacity-50 z-20" />
             )}
 
-            {/* NEW: Added group-hover:z-50 so tapped labels always jump to the absolute front */}
+            {/* THE FIX IS HERE:
+              - w-max max-w-[70px] forces long names to wrap into a tight column on mobile.
+              - md:max-w-none md:whitespace-nowrap ensures it stretches back out beautifully on desktop.
+              - leading-[1.1] tightens the gap between the wrapped text lines.
+            */}
             <div
-              className={`absolute whitespace-nowrap bg-white/95 backdrop-blur-md text-black text-[9px] sm:text-[10px] font-bold px-2.5 py-1.5 rounded-md shadow-sm transition-transform group-hover:scale-110 group-hover:z-50 border border-gray-100 ${loc.labelClass}`}
+              className={`absolute bg-white/95 backdrop-blur-md text-black text-[9px] sm:text-[10px] font-bold px-2 py-1.5 rounded-md shadow-sm transition-transform group-hover:scale-110 group-hover:z-50 border border-gray-100 w-max max-w-[70px] whitespace-normal md:max-w-none md:whitespace-nowrap text-center leading-[1.1] ${loc.labelClass}`}
             >
               {loc.name}
             </div>
@@ -246,7 +252,6 @@ function WinnipegMapAnimation() {
         return (
           <div
             key={i}
-            // Lowered the base z-index so the hover layer works properly
             className="absolute z-20 transition-all duration-1000 ease-out"
             style={{
               top: hasAnimated ? loc.y : "50%",
